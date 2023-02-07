@@ -27,11 +27,6 @@ namespace WebAtividadeEntrevista.Controllers
         {
             BoCliente bo = new BoCliente();
 
-            if (bo.VerificarExistencia(model.CPF, model.Id))
-            {
-                ModelState.AddModelError("", "CPF inválido, pois já consiste no banco de dados.");
-            }
-            
             if (!this.ModelState.IsValid)
             {
                 List<string> erros = (from item in ModelState.Values
@@ -43,9 +38,9 @@ namespace WebAtividadeEntrevista.Controllers
             }
             else
             {
-                
+
                 model.Id = bo.Incluir(new Cliente()
-                {                    
+                {
                     CEP = model.CEP,
                     Cidade = model.Cidade,
                     Email = model.Email,
@@ -58,20 +53,22 @@ namespace WebAtividadeEntrevista.Controllers
                     CPF = model.CPF
                 });
 
-           
+
                 return Json("Cadastro efetuado com sucesso");
             }
+
+            if (bo.VerificarExistencia(model.CPF, model.Id))
+            {
+                ModelState.AddModelError("", "CPF inválido, pois já consiste no banco de dados.");
+            }
+            
+            
         }
 
         [HttpPost]
         public JsonResult Alterar(ClienteModel model)
         {
             BoCliente bo = new BoCliente();
-
-            if (bo.VerificarExistencia(model.CPF, model.Id))
-            {
-                ModelState.AddModelError("", "CPF inválido, pois já consiste no banco de dados.");
-            }
 
             if (!this.ModelState.IsValid)
             {
@@ -98,8 +95,13 @@ namespace WebAtividadeEntrevista.Controllers
                     Telefone = model.Telefone,
                     CPF = model.CPF
                 });
-                               
+
                 return Json("Cadastro alterado com sucesso");
+            }
+
+            if (bo.VerificarExistencia(model.CPF, model.Id))
+            {
+                ModelState.AddModelError("", "CPF inválido, pois já consiste no banco de dados.");
             }
         }
 
