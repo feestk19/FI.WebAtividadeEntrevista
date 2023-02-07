@@ -28,7 +28,7 @@ namespace WebAtividadeEntrevista.Models
         /// <summary>
         /// E-mail
         /// </summary>
-        [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$", ErrorMessage = "Digite um e-mail válido")]
+        [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$", ErrorMessage = "Digite um e-mail válido.\n")]
         public string Email { get; set; }
 
         /// <summary>
@@ -66,6 +66,15 @@ namespace WebAtividadeEntrevista.Models
         /// Telefone
         /// </summary>
         public string Telefone { get; set; }
+
+
+        //CPF
+        
+        [MaxLength(14)]
+        [Required(ErrorMessage = "O campo de CPF é de preenchimento obrigatório.")]
+        [RegularExpression(@"^(((\d{3}).(\d{3}).(\d{3})-(\d{2}))?((\d{2}).(\d{3}).(\d{3})/(\d{4})-(\d{2}))?)*$", ErrorMessage = "Digite um CPF no formato 000.000.000-00.")]
+        [CPFModel(ErrorMessage = "Digite um CPF válido.\n")]
+        public string CPF { get; set; }
 
     }    
 }

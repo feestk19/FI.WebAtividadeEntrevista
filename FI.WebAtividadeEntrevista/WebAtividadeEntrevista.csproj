@@ -190,9 +190,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ClienteModel.cs" />
+    <Compile Include="Models\CPFModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\AlteraCampo.sql" />
     <Content Include="App_Data\BancoDeDados.mdf" />
     <Content Include="App_Data\BancoDeDados_log.ldf">
       <DependentUpon>BancoDeDados.mdf</DependentUpon>
