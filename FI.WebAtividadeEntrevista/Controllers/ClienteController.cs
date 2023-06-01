@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using FI.AtividadeEntrevista.DML;
+using System.Web.UI.WebControls;
 
 namespace WebAtividadeEntrevista.Controllers
 {
@@ -36,9 +37,18 @@ namespace WebAtividadeEntrevista.Controllers
                 Response.StatusCode = 400;
                 return Json(string.Join(Environment.NewLine, erros));
             }
+            else if (bo.VerificarExistencia(model.CPF, model.Id))
+            {
+                ModelState.AddModelError("Erro", "O CPF informado já existe na base");
+
+                List<string> erros = (from item in ModelState.Values
+                                      from error in item.Errors
+                                      select error.ErrorMessage).ToList();
+                Response.StatusCode = 400;
+                return Json(erros);
+            }
             else
             {
-
                 model.Id = bo.Incluir(new Cliente()
                 {
                     CEP = model.CEP,
@@ -53,15 +63,8 @@ namespace WebAtividadeEntrevista.Controllers
                     CPF = model.CPF
                 });
 
-
                 return Json("Cadastro efetuado com sucesso");
             }
-
-            if (bo.VerificarExistencia(model.CPF, model.Id))
-            {
-                ModelState.AddModelError("", "CPF inválido, pois já consiste no banco de dados.");
-            }
-            
             
         }
 
@@ -78,6 +81,16 @@ namespace WebAtividadeEntrevista.Controllers
 
                 Response.StatusCode = 400;
                 return Json(string.Join(Environment.NewLine, erros));
+            }
+            else if (bo.VerificarExistencia(model.CPF, model.Id))
+            {
+                ModelState.AddModelError("Erro", "O CPF informado já existe na base");
+
+                List<string> erros = (from item in ModelState.Values
+                                      from error in item.Errors
+                                      select error.ErrorMessage).ToList();
+                Response.StatusCode = 400;
+                return Json(erros);
             }
             else
             {
@@ -97,11 +110,6 @@ namespace WebAtividadeEntrevista.Controllers
                 });
 
                 return Json("Cadastro alterado com sucesso");
-            }
-
-            if (bo.VerificarExistencia(model.CPF, model.Id))
-            {
-                ModelState.AddModelError("", "CPF inválido, pois já consiste no banco de dados.");
             }
         }
 
